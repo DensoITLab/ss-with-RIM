@@ -1,4 +1,4 @@
-# Copyright (C) 2016 Denso IT Laboratory, Inc.
+# Copyright (C) 2020 Denso IT Laboratory, Inc.
 # All Rights Reserved
 
 # Denso IT Laboratory, Inc. retains sole and exclusive ownership of all
@@ -133,7 +133,7 @@ class CNNRIM(nn.Module):
         return F.mse_loss(recons, image)
 
 
-    def __preprocess(self, image, device):
+    def __preprocess(self, image, device="cuda"):
         image = torch.from_numpy(image).permute(2, 0, 1).float()[None]
         h, w = image.shape[-2:]
         coord = torch.stack(torch.meshgrid(torch.arange(h), torch.arange(w))).float()[None]
@@ -187,7 +187,20 @@ class CNNRIM(nn.Module):
 
 
     def calc_spixel(self, image, device="cuda"):
-        input = self.__preprocess(image)
+        """
+        generate superpixels
+
+        Args:
+            image: numpy.ndarray
+                An array of shape (h, w, c)
+            device: ["cpu", "cuda"]
+        
+        Return:
+            spix: numpy.ndarray
+                An array of shape (h, w)
+
+        """
+        input = self.__preprocess(image, device)
         spix, recons = self.forward(input)
 
         spix = spix.argmax(1).squeeze().to("cpu").detach().numpy()

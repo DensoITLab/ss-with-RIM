@@ -25,7 +25,7 @@ python spix_rim.py --image /path/to/image
 ```
 
 # LICENCE
-Copyright (C) 2016 Denso IT Laboratory, Inc.
+Copyright (C) 2020 Denso IT Laboratory, Inc.
 All Rights Reserved
 
 Denso IT Laboratory, Inc. retains sole and exclusive ownership of all
